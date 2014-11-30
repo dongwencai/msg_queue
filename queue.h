@@ -17,8 +17,8 @@ extern msg_queue_t *CreateMsgQueue(unsigned int msgMax,unsigned int msgSize);
 
 extern int DestoryMsgQueue(msg_queue_t *msgQueue);
 
-int SendMsg(msg_queue_t *msgQueue,void *msg);
+extern int SendMsg(msg_queue_t *msgQueue,void *msg);
 
-int RecvMsg(msg_queue_t *msgQueue,void *msg,int blocked);
+extern int RecvMsg(msg_queue_t *msgQueue,void *msg,int blocked);
     
 #endif
