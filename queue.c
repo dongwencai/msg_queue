@@ -64,7 +64,9 @@ int RecvMsg(msg_queue_t *msgQueue,void *msg,int blocked)
     }
     else
     {
-        sem_trywait(&msgQueue->sem);
+        ret = sem_trywait(&msgQueue->sem);
+        if(ret < 0)
+            return ret;
     }
     pthread_mutex_lock (&msgQueue->lock); 
     if (msgQueue->read_off != msgQueue->write_off) 
@@ -74,14 +76,6 @@ int RecvMsg(msg_queue_t *msgQueue,void *msg,int blocked)
         if (msgQueue->read_off >= msgQueue->max_msg) 
             msgQueue->read_off = 0; 
     }
-    else
-    {
-        pthread_mutex_unlock (&msgQueue->lock);
-        fprintf(stderr,"message queue is empty\n");
-        printf("line:%d\tread offset:%d\t write offset:%d\n",__LINE__,msgQueue->read_off,msgQueue->write_off);
-        exit(-1);
-        ret = -1;
-    }	
     pthread_mutex_unlock (&msgQueue->lock);
     return ret; 
 } 
